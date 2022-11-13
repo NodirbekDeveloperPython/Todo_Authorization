@@ -30,15 +30,12 @@ class PlanAPIView(APIView):
 
     def delete(self,request,pk):
         plan = Plan.objects.get(id=pk)
-        serializer = PlanSerializer(plan, data=request.data)
-        if serializer.is_valid():
-            if Plan.objects.filter(id=pk, user=request.user):
-                plan.delete()
-                natija = {
-                    "Success": serializer.data
-                }
-                return Response(natija)
-        return Response({"Error": serializer.data})
+        if Plan.objects.filter(id=pk, user=request.user):
+            plan.delete()
+            natija = {
+            "Success": "Plan o'chirildi"}
+            return Response(natija)
+        return Response({"Error": "Plan Error"})
 
 
     def put(self,request, pk):
